@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+
+    $(document).ready(function(){
+
+      $("button").click(function(){
+
+        var search_term= $("#search").val();
+
+        var search_criteria="goodreads";
+
+        var search_category=["books","quotes","trivia","stories","events","people"];
+
+                                var searchflag = true;
+
+                                jQuery.each(search_category, function(index, item) {
+
+                                                if(searchflag) {
+
+                                                                $.ajax({
+
+                                                                  type:"GET",
+
+                                                                  async:false,
+
+                                                                  crossDomain:true,
+
+                                                                  url: "https://www.goodreads.com/search",
+
+                                                                  data: "q="+search_term+"&search[source]=goodreads"+search_criteria+"&search_type="+item+"&tab="+item,
+
+                                                                  accepts:{
+
+                                                                                "*": "*/*",
+
+                                                                                text: "text/plain",
+
+                                                                                html: "text/html",
+
+                                                                                xml: "application/xml, text/xml",
+
+                                                                                json: "application/json, text/javascript"
+
+                                                                  },
+
+                                                                  success: function(result){
+
+                                                                                var text="No results.";
+
+                                                                                var noresults= result.indexOf(text);
+
+                                                                                if(noresults < 0){                                                                              
+
+                                                                                                $("#div1").html("Search Result found under the category:"+item.toUpperCase());
+												$("#div1").html(result);
+
+                                                                                                searchflag = false;
+
+
+                                                                                }
+
+                                                                  }});
+
+                                                                }
+
+                                                });
+
+                                });
+
+    });
+
+  </script>
+
+</head>
+
+<body>
+
+  <label for="fname"> Search Keyword</label><br>
+
+  <input type="text" id="search" name="search_term" ><br>
+
+  <div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
+
+<button>Get External Content</button>
+
+</body>
+
+</html>
+
+
+
+
+
